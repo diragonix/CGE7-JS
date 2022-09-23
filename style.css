@@ -30,11 +30,6 @@ body {
     align-items: center;
     flex-direction: column;
 }
-#options > button{
-    padding: 4px;
-    margin: 3px;
-    width: min(100px,100%);
-}
 #options > input{
     padding: 10px;
 }
@@ -155,9 +150,11 @@ body {
 #selected {
     width: calc(100% / 16);
     height: calc(100% / 22);
-    border: 2px solid rgb(255, 157, 0);
+    border: 2px solid rgb(255, 255, 255);
+    /* background-color: white; */
     position: absolute;
     z-index: 3;
+    mix-blend-mode: difference;
     /* transform: translate(-2px,-2px); */
 }
 
@@ -170,4 +167,21 @@ body {
     height: 30px;
     width: 30px;
 
+}
+
+#miscEdit {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+}
+
+#saveButton, 
+#textSave,
+#loadButton {
+    padding: 4px;
+    margin: 3px;
+    width: min(100px,100%);
+}
+#buttons {
+    width: min(100px,100%);
 }
