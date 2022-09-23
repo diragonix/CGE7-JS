@@ -145,6 +145,8 @@ body {
 #colorLists {
     display: flex;
     position: relative;
+    justify-content: center;
+    align-items: center;
     /* justify-content: center; */
 }
 #edit {
@@ -163,4 +165,9 @@ body {
     max-width: 25vw;
 
     position: relative;
+}
+#swap {
+    height: 30px;
+    width: 30px;
+
 }

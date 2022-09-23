@@ -48,6 +48,7 @@ const reload = document.getElementById('loadButton');
 const save = document.getElementById('saveButton');
 const fileInput = document.getElementById('input');
 const selector = document.getElementById('selected');
+const swap = document.getElementById('swap');
 
 const pal1 = document.getElementById('pal1');
 // const pal2 = document.getElementById('pal2');
@@ -344,7 +345,7 @@ function updateColors() {
     const lists = main.children;
     for (let i = 0; i < 8; i++) {
         lists[0].children[i].style.backgroundColor = `rgb(${colors[i].r},${colors[i].g},${colors[i].b})`;        
-        lists[1].children[i].style.backgroundColor = `rgb(${colors[i].r},${colors[i].g},${colors[i].b})`; 
+        lists[2].children[i].style.backgroundColor = `rgb(${colors[i].r},${colors[i].g},${colors[i].b})`; 
     }
 }
 
@@ -361,6 +362,14 @@ function selectCol(FBG,color) {
         }
     }
 }
+
+swap.addEventListener('click', () => {
+    let FG = paint.color.FG;
+    let BG = paint.color.BG;
+    paint.color.FG = BG;
+    paint.color.BG = FG;
+    renderGrid();
+});
 
 gridCanvas.addEventListener('mousemove', function(evt) {
         
