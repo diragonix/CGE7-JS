@@ -1,0 +1,166 @@
+* {
+    padding: 0;
+    margin:  0;
+    box-sizing: border-box;
+    font-family: Consolas,monospace;
+}
+
+#mz700 {
+border-right: 2px solid black;
+/* border:2px solid rgb(5   5, 0, 66) ; */
+width: auto;
+/* max-width: ; */
+height: min(800px,100vh);
+image-rendering:pixelated !important;
+
+}
+
+body {
+    background-color: #3F3F3F;
+}
+
+#container {
+    background-color: #EFEFEF;
+    display: flex;
+    flex-direction: row;
+}
+#options {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+}
+#options > button{
+    padding: 4px;
+    margin: 3px;
+    width: min(100px,100%);
+}
+#options > input{
+    padding: 10px;
+}
+#colors > div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+#colors > div > input {
+    width: 32px;
+    height: 32px;
+    border-radius: 0;
+}
+#colors {
+    margin-top: 15px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+#colors > button {
+    width: 50px;
+    height: max-content;
+    padding: 3px;
+    position:absolute;
+    
+    /* top: 4px; */
+}
+#applyPalette {
+    bottom: -20px;
+}
+
+#menu {
+    right: 0;
+    height: max-content;
+    /* width: 100%;
+    height: 100%; */
+    position: fixed;
+    /* padding-right: 2px; */
+
+
+}
+#menu > * {
+    position:fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    /* padding-top: 4px; */
+}
+#menuButtons > button {
+    /* border-radius: % 0px 0px 0px; */
+    border: 1px solid rgb(74, 74, 74);
+    border-width: 1px 0px 2px 1px;
+    padding: 4px;
+    cursor: pointer;
+    width: 35px;
+    height: 50px;
+    transition: color 0.3s,background-color 0.3s,width 0.3s,border-radius 0.3s;
+    font-family: wingdings;
+    font-size: 20px;
+}
+
+.hiddenMenu {
+    display: none !important;
+}
+.high {
+    background-color: #646464;
+    color: #dedede;
+    width: 40px !important;
+    /* border-radius: 6px 0 0 0; */
+}
+#gridCanvas {
+    /* width:100%; */
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 25vw;
+    /* min-height: 352px; */
+    /* height: 50%; */
+    image-rendering:pixelated !important;
+}
+#charGrid {
+    overflow: hidden;
+    width: max-content;    /* height: 100%; */
+}
+.FG {
+    background-color: aqua;
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    cursor: pointer;
+}
+.BG {
+    background-color: rgb(51, 255, 0);
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+#colorLists {
+    display: flex;
+    position: relative;
+    /* justify-content: center; */
+}
+#edit {
+    width: 100%;
+}
+#selected {
+    width: calc(100% / 16);
+    height: calc(100% / 22);
+    border: 2px solid rgb(255, 157, 0);
+    position: absolute;
+    z-index: 3;
+    /* transform: translate(-2px,-2px); */
+}
+
+#canvasContainer {
+    max-width: 25vw;
+
+    position: relative;
+}
