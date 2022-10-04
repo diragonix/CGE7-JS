@@ -1,8 +1,35 @@
 const canvas = document.getElementById('mz700');
 const ctx = canvas.getContext('2d');
+const dpr = window.devicePixelRatio;
+const canvasContainer = document.getElementById('maincanvasContainer');
+canvas.width = 320;
+canvas.height = 200;
 ctx.scale(1, 1);
+let canvasScale = 4;
 
 let charList = [];
+
+const updatePixelRatio = () => {
+    let pr = window.devicePixelRatio;
+    scaleCanvas(canvas.width,canvas.height,pr,canvasScale,canvas,canvasContainer);
+    // console.log(pr,"ratio!");
+    matchMedia(`(resolution: ${pr}dppx)`).addEventListener("change", updatePixelRatio, { once: true })
+  }
+  
+  updatePixelRatio();
+
+
+function scaleCanvas(x,y,dpr,scale,canvas,container) {
+    let dprScale = (1/dpr)*scale;
+    let s = {x:x*dprScale,y:y*dprScale};
+    canvas.style.left = `${(s.x-x)/2}px`;
+    canvas.style.top = `${(s.y-y)/2}px`;
+    canvas.style.transform = `scale(${dprScale})`;
+    container.style.minWidth = `${canvas.width*dprScale}px`;
+    container.style.minHeight = `${canvas.height*dprScale}px`;
+    container.style.width = `${canvas.width*dprScale}px`;
+    container.style.height = `${canvas.height*dprScale}px`;
+}
 
 
 // hex to RGB //
@@ -43,13 +70,16 @@ let editMode = false;
 // second third and last third is color one and color two
 let split =  {shape:[],col1:[],col2:[]};
 
-const posText = document.getElementById('position');
+// const posText = document.getElementById('position');
 const reload = document.getElementById('loadButton');
 const save = document.getElementById('saveButton');
 const fileInput = document.getElementById('input');
 const selector = document.getElementById('selected');
 const swap = document.getElementById('swap');
 const saveNewFile = document.getElementById('textSave');
+
+const upsize = document.getElementById('scaleUp');
+const dosize = document.getElementById('scaleDown');
 
 const pal1 = document.getElementById('pal1');
 // const pal2 = document.getElementById('pal2');
@@ -94,12 +124,12 @@ function loadPalette(defaultColors) {
 
 function setPaletteColors() {
     // console.log("huh?");
-    for (let i = 1; i < 9; i++) {
+    for (let i = 0; i < 8; i++) {
         let prm = pal1.children[i].value.convertToRGB();
         // let alt = pal2.children[i].value.convertToRGB();
-        colors[i-1].r = prm[0];
-        colors[i-1].g = prm[1];
-        colors[i-1].b = prm[2];
+        colors[i].r = prm[0];
+        colors[i].g = prm[1];
+        colors[i].b = prm[2];
     }
 }
 let mousePosY = 0;
@@ -121,17 +151,16 @@ function getMousePos(canvas, evt) {
         let rect = canvas.getBoundingClientRect();
         let gridX = Math.floor(mousePos.x/(rect.right/40));
         let gridY = Math.floor(mousePos.y/(rect.right/40)); 
-        posText.innerText = `x:${gridX+1},y:${gridY+1},id:${gridX+(40*gridY)}`;
+        // posText.innerText = `x:${gridX+1},y:${gridY+1},id:${gridX+(40*gridY)}`;
 
         if(mousedown && (lastSpaceX != mousePosX || lastSpaceY != mousePosY)) {
             let dx = Math.abs(lastSpaceX - mousePosX);
             let dy = Math.abs(lastSpaceY - mousePosY);
 
             if (Math.abs(dx)>1||Math.abs(dy)>1) {   
-                // console.log("???");
                 line(mousePosX, mousePosY, lastSpaceX, lastSpaceY); 
             } else {
-                paintChar(mousePosX*8,mousePosY*8);
+                paintChar(mousePosX*gSize,mousePosY*gSize);
             }
            
             lastSpaceX = mousePosX;
@@ -154,7 +183,7 @@ function getMousePos(canvas, evt) {
     // console.log(err);
  
     while(true) {
-        paintChar(x0*8,y0*8);
+        paintChar(x0*gSize,y0*gSize);
         // console.log(x0,x1);
        if ((x0 === x1) && (y0 === y1)) break;
        let e2 = err;
@@ -178,7 +207,7 @@ function getMousePos(canvas, evt) {
         lastSpaceX = Math.floor(mousePos.x/(rect.right/40));
         lastSpaceY = Math.floor(mousePos.y/(rect.right/40));
         // console.log(lastSpaceX,lastSpaceY,mousePosX,mousePosY)
-        paintChar(mousePosX*8,mousePosY*8);
+        paintChar(mousePosX*gSize,mousePosY*gSize);
     }
         
   }, false);
@@ -237,7 +266,6 @@ function loadCGE7(string) {
 function renderAllChunks(split) {   
     let x = 0;
     let y = 0;
-    let startTime = performance.now();
     for (let i = 0; i < split.shape.length; i++) {   
         // ctx.imageSmoothingEnabled = false;
         renderChar(x,y,split.shape[i],split.col2[i],split.col1[i],ctx);
@@ -247,8 +275,6 @@ function renderAllChunks(split) {
             x = 0;
         }
     }
-    let endTime = performance.now();
-    console.log(`render took ${endTime - startTime} ms`);
 }
     
 function selectColor(num) {
@@ -260,15 +286,15 @@ function renderChar(posX,posY,char = 0,col1,col2,ctx) {
 
     const BGcolor = colors[col1]; // background color
     const FRcolor = colors[col2]; // foreground color
-    ctx.clearRect(posX,posY,8,8); // empty chunk
+    ctx.clearRect(posX,posY,gSize,gSize); // empty chunk
     ctx.globalCompositeOperation = "source-over"; // set to draw normally just in case
     ctx.drawImage(charList[char],posX,posY); // draw black character 
     ctx.globalCompositeOperation = "source-atop"; // set to draw only on drawn pixels
     ctx.fillStyle = `rgb(${FRcolor.r},${FRcolor.g},${FRcolor.b})`; // set character color
-    ctx.fillRect(posX,posY,8,8);  // fill in character color
+    ctx.fillRect(posX,posY,gSize,gSize);  // fill in character color
     ctx.globalCompositeOperation = "destination-over"; // draw behind 
     ctx.fillStyle = `rgb(${BGcolor.r},${BGcolor.g},${BGcolor.b})`; // set bg color
-    ctx.fillRect(posX,posY,8,8); // draw background
+    ctx.fillRect(posX,posY,gSize,gSize); // draw background
 
 }     
 
@@ -276,8 +302,8 @@ const gridCanvas = document.getElementById('gridCanvas');
 const gridctx = gridCanvas.getContext('2d');
 gridctx.scale(1, 1);
 
-loadRadioMenu('menuButtons',[{name:"1",id:"Options",parentElement:"menu",targetElement:"options",pageFunction:() => {editMode=false}},
-                             {name:"!",id:"Edit",parentElement:"menu",targetElement:"edit", pageFunction:() => {editMode=true; loadPaintMenu();}}]); 
+loadRadioMenu('menuButtons',[{name:["","folder.png"],id:"Options",parentElement:"menu",targetElement:"options",pageFunction:() => {editMode=false}},
+                             {name:["","pen.png"],id:"Edit",parentElement:"menu",targetElement:"edit", pageFunction:() => {editMode=true; loadPaintMenu();}}]); 
 
 function loadRadioMenu(element = 'menu',menu = [{name:"",parentElement:"",targetElement:"",pageFunction:() => {console.log("")}}]) {
     let menuElement = document.getElementById(element)
@@ -289,7 +315,14 @@ function loadRadioMenu(element = 'menu',menu = [{name:"",parentElement:"",target
         if (i==0) {
             menuButton.classList.add('high');
         }
-        menuButton.innerText = element.name;
+        if (element.name[0] == "") {
+            let buttonImage = document.createElement('img');
+            buttonImage.src = `./images/${element.name[1]}`;
+            buttonImage.classList.add('buttonImage');
+            menuButton.appendChild(buttonImage);
+        } else {
+            menuButton.innerText = element.name[0];
+        }
         menuButton.id = element.id;
         menuButton.addEventListener('click', () => {
             selectMenu(element);
@@ -317,7 +350,7 @@ function selectMenu(element) {
 
 function paintChar(posX,posY,char,FG,BG) {
     renderChar(posX,posY,paint.char,paint.color.FG,paint.color.BG,ctx);
-    let id = (posX+(40*posY))/8;
+    let id = (posX+(40*posY))/gSize;
     // console.log("id",(posX+(40*posY))/8);
     saveFile[id] = paint.char;
     saveFile[id +1000] = paint.color.BG;
@@ -385,7 +418,7 @@ gridCanvas.addEventListener('mousemove', function(evt) {
         let rect = gridCanvas.getBoundingClientRect();
         let gridX = Math.floor(mousePos.x/((rect.right-rect.x)/16));
         let gridY = Math.floor(mousePos.y/((rect.bottom-rect.y)/22)); 
-        posText.innerText = `x:${gridX+1},y:${gridY+1},id:${gridX+(16*gridY)}`;
+        // posText.innerText = `x:${gridX+1},y:${gridY+1},id:${gridX+(16*gridY)}`;
 
     
   }, false);
@@ -460,7 +493,15 @@ document.onkeydown = function (e) {
             selectChar(paint.gridPos.x+(16*paint.gridPos.y),paint.gridPos.x,paint.gridPos.y,rect);
             break;
         default:
-            console.log(window.event.key);
             break;
     }
 };
+
+upsize.addEventListener('click', () => {
+    canvasScale +=1;
+    scaleCanvas(canvas.width,canvas.height,window.devicePixelRatio,canvasScale,canvas,canvasContainer);
+});
+dosize.addEventListener('click', () => {
+    canvasScale -=1;
+    scaleCanvas(canvas.width,canvas.height,window.devicePixelRatio,canvasScale,canvas,canvasContainer);
+});
