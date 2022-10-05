@@ -13,6 +13,7 @@
 /* height: min(800px,100vh); */
 /* width: 480px; */
 /* height: 300px; */
+background-color: black;
 image-rendering:pixelated !important;
 position: relative;
     /* transform: scale(calc(0.8*2)); */
@@ -63,8 +64,16 @@ background-color:#dedede;
 #colorsAndScales {
     margin: 5px 0 0 0;
     border: 1px solid #3F3F3F;
-
+    /* min-height: 100px; */
+    position: relative;
 }
+/* .horz-divider {
+    position: relative;
+    top: -9px;
+    width: 1px;
+    background-color: #3F3F3F;
+    height: 100%;
+} */
 #colors > div {
     display: flex;
     flex-direction: row;
@@ -121,11 +130,7 @@ background-color:#dedede;
     height: 100%;
 }
 
-.horz-divider {
-    width: 0;
-    height: 100%;
-    border-left: 1px solid#3F3F3F;
-}
+
 
 #menu {
     right: 0;
@@ -140,10 +145,11 @@ background-color:#dedede;
 }
 
 #scales {
-    /* height: 100%; */
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border-left: 1px solid #3F3F3F; */
 }
 #scales > button {
     padding: 7px;
@@ -166,6 +172,7 @@ background-color:#dedede;
     border-width: 1px 0px 2px 1px;
     padding: 4px;
     cursor: pointer;
+    margin: 1px 0;
     width: 35px;
     height: 50px;
     transition: color 0.3s,background-color 0.3s,width 0.3s,border-radius 0.3s;
@@ -193,8 +200,8 @@ background-color:#dedede;
     /* width:100%; */
     position: relative;
     z-index: 2;
-    width: 100%;
-    max-width: 25vw;
+    /* width: 100%; */
+    /* max-width: 25vw; */
     /* min-height: 352px; */
     /* height: 50%; */
     image-rendering:pixelated !important;
@@ -210,6 +217,9 @@ background-color:#dedede;
     height: 30px;
     margin: 2px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .BG {
     background-color: rgb(51, 255, 0);
@@ -218,6 +228,15 @@ background-color:#dedede;
     height: 30px;
     margin: 2px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.BG > *,.FG > * {
+    font-size: 14pt;
+    color: white;
+    mix-blend-mode: difference;    
 }
 
 #FGlist {
@@ -247,7 +266,7 @@ background-color:#dedede;
 #selected {
     width: calc(100% / 16);
     height: calc(100% / 22);
-    border: 2px solid rgb(255, 255, 255);
+    /* border: 3.2px solid rgb(255, 255, 255); */
     /* background-color: white; */
     position: absolute;
     z-index: 3;
@@ -256,7 +275,7 @@ background-color:#dedede;
 }
 
 #canvasContainer {
-    max-width: 25vw;
+    /* max-width: 25vw; */
 
     position: relative;
 }
@@ -269,7 +288,7 @@ background-color:#dedede;
 #miscEdit {
     display: flex;
     flex-direction: row;
-    /* margin-top: 15px; */
+    margin: 4px 0;
     /* padding: 0 15px 15px 15px; */
     justify-content: center;
     align-items: center;
@@ -283,7 +302,7 @@ background-color:#dedede;
     padding: 3px 3px 0px 3px;
     margin: 3px;
     border:1px solid #3F3F3F ;
-    max-width: 25vw;
+    width:min-content;
     /* height: 100%; */
 }
 
@@ -305,4 +324,12 @@ background-color:#dedede;
 #buttons > button {
     width: max-content;
     height: 30px;
+}
+.menuMargin {
+    margin: 5px;
+}
+.menuBox {
+    background-color: #dedede;
+    padding: 3px;
+    border: 1px solid #3F3F3F;
 }
