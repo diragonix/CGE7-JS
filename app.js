@@ -33,7 +33,7 @@ const gridctx = gridCanvas.getContext('2d');
 gridctx.scale(1, 1);
 
 
-let charList = [];
+let charList;
 
 const updatePixelRatio = () => {
     let pr = window.devicePixelRatio;
@@ -105,13 +105,18 @@ selector.style.border = `${canvasScale*(1 / window.devicePixelRatio)}px solid wh
 
 window.onLoad = preloadChars();
 function preloadChars() {
+    // let fr = new FileReader();
+    // for (let i = 0; i < 512; i++) {
+    //     url = `./characters/letter${i}.png`;
+    //     image = new Image();
+    //     image.src = url;
+    //     charList[i] = image;
+    // }
     let fr = new FileReader();
-    for (let i = 0; i < 512; i++) {
-        url = `./characters/letter${i}.png`;
+        url = `./char/chars.png`;
         image = new Image();
         image.src = url;
-        charList[i] = image;
-    }
+        charList = image;
 }
 
 loadPalette(defaultColors);
@@ -312,13 +317,16 @@ function selectColor(num) {
 }
 
 
-function renderChar(posX, posY, char = 0, col1, col2, ctx) {
+function renderChar(posX, posY, char, col1, col2, ctx) {
+    console.log(char);
+    let charfrontOffset = (char)*gSize;
+    let charbackOffset = gSize;
 
     const BGcolor = colors[col1]; // background color
     const FRcolor = colors[col2]; // foreground color
     ctx.clearRect(posX, posY, gSize, gSize); // empty chunk
     ctx.globalCompositeOperation = "source-over"; // set to draw normally just in case
-    ctx.drawImage(charList[char], posX, posY); // draw black character 
+    ctx.drawImage(charList,charfrontOffset,0,8,8,posX, posY,gSize,gSize); // draw black character 
     ctx.globalCompositeOperation = "source-atop"; // set to draw only on drawn pixels
     ctx.fillStyle = `rgb(${FRcolor.r},${FRcolor.g},${FRcolor.b})`; // set character color
     ctx.fillRect(posX, posY, gSize, gSize);  // fill in character color
