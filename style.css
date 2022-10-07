@@ -46,10 +46,11 @@ background-color:#dedede;
     background-color: #EFEFEF;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 #options {
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     /* justify-content: center; */
     align-items: baseline;
     padding:0 5px;
@@ -257,7 +258,7 @@ background-color:#dedede;
 }
 
 #edit {
-    width: 100%;
+    /* width: 100%; */
 }
 
 #editContainer {
@@ -319,7 +320,7 @@ background-color:#dedede;
     /* flex-direction: column; */
     align-items: center;
     border: 1px solid #3F3F3F;
-    margin-top: 6px;
+    margin: 6px 0;
 }
 #buttons > button {
     width: max-content;
