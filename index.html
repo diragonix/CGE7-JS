@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="shortcut icon" href="./images/favicon.png">
     <title>CGE7-JS</title>
 </head>
 
 <body>
     <main id="container">
         <div id="maincanvasContainer">
+            <div id="grid" class="hide-grid"></div>
             <canvas id="mz700" width="320" height="200"></canvas>
         </div>
         <div id="options">
@@ -38,9 +39,12 @@
                         <button type="button" id="scaleDown">Decrease size</button>
                     </div>
                 </div>
-                <div id="buttons" class="optionsContainer">
-                    <button type="button" id="textSave">save as text file</button>
-                    <button type="button" id="saveButton">Save as PNG</button>
+                <div class="flexrow">
+
+                    <div id="buttons" class="optionsContainer">
+                        <button type="button" id="textSave">save as text file</button>
+                        <button type="button" id="saveButton">Save as PNG</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,27 +59,31 @@
                     <div id="miscEdit" class="optionsContainer">
                         <div id="charGrid">
                             <div id="colorLists">
-                                <div id="FGlist">
-                                    <div class="FG" onclick="selectCol(1,0)"></div>
-                                    <div class="FG" onclick="selectCol(1,1)"></div>
-                                    <div class="FG" onclick="selectCol(1,2)"></div>
-                                    <div class="FG" onclick="selectCol(1,3)"><p>+</p></div>
-                                    <div class="FG" onclick="selectCol(1,4)"></div>
-                                    <div class="FG" onclick="selectCol(1,5)"></div>
-                                    <div class="FG" onclick="selectCol(1,6)"></div>
-                                    <div class="FG" onclick="selectCol(1,7)"></div>
-                                </div>
+                                <button type="button" id="floodButton">fill</button>
                                 <button type="button" id="swap">swap</button>
-                                <div id="BGlist">
-                                    <div class="BG" onclick="selectCol(0,0)"></div>
-                                    <div class="BG" onclick="selectCol(0,1)"></div>
-                                    <div class="BG" onclick="selectCol(0,2)"></div>
-                                    <div class="BG" onclick="selectCol(0,3)"></div>
-                                    <div class="BG" onclick="selectCol(0,4)"></div>
-                                    <div class="BG" onclick="selectCol(0,5)"></div>
-                                    <div class="BG" onclick="selectCol(0,6)"><p>+</p></div>
-                                    <div class="BG" onclick="selectCol(0,7)"></div>
+                                <div>
+                                    <div id="FGlist">
+                                        <div class="FG" onclick="selectCol(1,0)"></div>
+                                        <div class="FG" onclick="selectCol(1,1)"></div>
+                                        <div class="FG" onclick="selectCol(1,2)"></div>
+                                        <div class="FG colSelected" onclick="selectCol(1,3)"><p>+</p></div>
+                                        <div class="FG" onclick="selectCol(1,4)"></div>
+                                        <div class="FG" onclick="selectCol(1,5)"></div>
+                                        <div class="FG" onclick="selectCol(1,6)"></div>
+                                        <div class="FG" onclick="selectCol(1,7)"></div>
+                                    </div>
+                                    <div id="BGlist">
+                                        <div class="BG" onclick="selectCol(0,0)"></div>
+                                        <div class="BG" onclick="selectCol(0,1)"></div>
+                                        <div class="BG" onclick="selectCol(0,2)"></div>
+                                        <div class="BG" onclick="selectCol(0,3)"></div>
+                                        <div class="BG" onclick="selectCol(0,4)"></div>
+                                        <div class="BG colSelected" onclick="selectCol(0,5)"><p>+</p></div>
+                                        <div class="BG" onclick="selectCol(0,6)"></div>
+                                        <div class="BG" onclick="selectCol(0,7)"></div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                        
@@ -84,13 +92,24 @@
             <!-- </div> -->
         </div>
         <div id="faq" class="hiddenMenu">
-            <p class="menuBox menuMargin">eeheeheehehe</p>
+            <header class="menuBox menuMargin">Shortcuts:</header>
+            <div class="menuBox menuMargin">
+                <p class="info-box">press <span class="sc" onclick="undoAction()">CTRL + Z</span> to undo actions</p>
+                <p class="info-box">press <span class="sc" onclick="grid.classList.toggle('hide-grid')">G</span> to toggle the grid</p>
+                <p class="info-box">pressing <span class="sc" onclick="toggleFloodMode();">F</span> enables fill mode,</p>
+                <p class="info-box">holding <span class="sc">CTRL</span> while filling will fill every identical character</p>
+                <p class="info-box">use <span class="sc">←</span><span class="sc">↑</span><span class="sc">→</span><span class="sc">↓</span> to move the character selector</p>
+                <p class="info-box longer-text">hold <span class="sc">SHIFT</span> to only draw the colors, not the character</p>
+                <p class="info-box">press <span class="sc" onclick="swapColors();">S</span> to swap colors</p>
+                <p class="info-box">press <span class="sc" onclick="swapLastStrokeColors();">D</span> to fill last stroke with current selection</p>
+                <p class="info-box">press <span class="sc">RIGHT CLICK</span> to copy character</p>
+            </div>
         </div>
         <div id="menu">
             <div id="menuButtons"></div>
         </div>
     </main>
 </body>
-<script src="app.js"></script>
+<script src="./app.js"></script>
 
 </html>
