@@ -202,7 +202,7 @@ animation-duration: 0.1s;
 }
 
 #grid {
-    background-image: url(../resources/img/grid.png);
+    background-image: url(./images/grid.png);
     background-repeat: repeat;
     background-position: right top;
     height: 200px;
